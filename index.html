@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top 100 Mapper OSM ITALIA - Indice</title>
@@ -156,30 +157,69 @@
                 text-decoration: none;
             }
         }
+	.year-selector {
+	    background: #f8f9fa;
+	    border-radius: 8px;
+	    padding: 20px;
+	    border: 1px solid #e9ecef;
+	}
+	
+	.year-btn {
+	    padding: 10px 20px;
+	    background: #f8f9fa;
+	    border: 2px solid #e9ecef;
+	    border-radius: 5px;
+	    text-decoration: none;
+	    color: #333;
+	    font-weight: bold;
+	    transition: all 0.3s ease;
+	}
+
+	.year-btn:hover {
+	    background: #e8f4fc;
+	    border-color: #3498db;
+	    transform: translateY(-2px);
+	}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
 </head>
 <body>
     <div class="container">
         <h1><i class="fas fa-map-marked-alt"></i> Top 100 Mapper OSM ITALIA</h1>
         
         <div class="subtitle">
-            Analisi statistica dei mapper OpenStreetMap più attivi in Italia nell'anno 2025.<br>
-            Scegli la classifica che desideri visualizzare:
+            Analisi statistica dei mapper OpenStreetMap più attivi in Italia.<br>
+            Scegli l'anno e la classifica che desideri visualizzare:
+        </div>
+        
+        <div class="year-selector" style="margin-bottom: 30px;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">
+                <i class="fas fa-calendar-alt"></i> Seleziona l'anno
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                <a href="?year=2023" class="year-btn" data-year="2023">2023</a>
+                <a href="?year=2024" class="year-btn" data-year="2024">2024</a>
+                <a href="?year=2025" class="year-btn" data-year="2025">2025</a>
+                <!------  aggiungere qui altri anni/link ------>
+            </div>
         </div>
         
         <div class="links-container">
-            <a href="top_100_italia_2025_ncs.html" class="link-card">
+            <a href="#" id="link-ncs" class="link-card">
                 <h2><i class="fas fa-sort-amount-down icon"></i> Classifica per numero di changeset</h2>
-                <p>Ordina i mapper in base al numero di sessioni di modifica (changeset) effettuate nel 2025</p>
+                <p id="desc-ncs">Ordina i mapper in base al numero di sessioni di modifica (changeset) effettuate</p>
             </a>
             
-            <a href="top_100_italia_2025_nmod.html" class="link-card">
+            <a href="#" id="link-nmod" class="link-card">
                 <h2><i class="fas fa-sort-amount-down-alt icon"></i> Classifica per numero di modifiche</h2>
-                <p>Ordina i mapper in base al numero totale di oggetti OSM modificati nel 2025</p>
+                <p id="desc-nmod">Ordina i mapper in base al numero totale di oggetti OSM modificati</p>
             </a>
         </div>
         
+
+
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Nota importante</h3>
             <p>Le due classifiche presentano dati diversi perché calcolate con criteri distinti:</p>
@@ -187,20 +227,87 @@
                 <li><strong>Classifica per changeset</strong>: considera il numero di sessioni di modifica</li>
                 <li><strong>Classifica per modifiche</strong>: considera il numero totale di oggetti creati/modificati</li>
             </ul>
-            <p style="margin-top: 10px;">I totali e le medie differiscono tra le due visualizzazioni. Per i dettagli completi, consulta le singole classifiche. Clicca sul nome del mappatore per aprire il profilo. Scorri le classifiche in fondo per i link di download dei dati in formato CSV/JSON
-            <br><br>NB: La classifica non è relativa ai soli mappatori italiani, ma ai mappatori che hanno contribuito a porzioni di mappa all'interno dei confini italiani, indipendentemente dalla nazionalità.</p>
+            <p style="margin-top: 10px;">I totali e le medie differiscono tra le due visualizzazioni. Per i dettagli completi, consulta le singole classifiche. Clicca sul nome del mappatore per aprire il profilo. Scorri le classifiche in fondo per i link di download dei dati in formato CSV/JSON</p>
         </div>
-        
+             
         <footer>
             <p>
                 <i class="fas fa-code"></i> Dati elaborati con PyOsmium   |   
-                <i class="fas fa-calendar-alt"></i> Archivo: italy-internal.osh.pbf aggiornato al 05/01/2026
+                <i class="fas fa-calendar-alt"></i> <span id="archive-date">Archivo: italy-internal.osh.pbf aggiornato al 05/01/2026</span>
                 <br><a href="https://www.openstreetmap.org/user/dp7" target="_blank" class="hidden-credit" title="Profilo OSM di dp7">
                     Elaborazione by dp7
                 </a>
             </p>
         </footer>
     </div>
-</body>
 
+    <script>
+        // Configurazione dei link-anni
+        const yearsConfig = {
+            "2025": {
+                ncs: "top_100_italia_2025_ncs.html",
+                nmod: "top_100_italia_2025_nmod.html",
+            },
+            "2024": {
+                ncs: "top_100_italia_2024_ncs.html",
+                nmod: "top_100_italia_2024_nmod.html",
+            },
+            "2023": {
+                ncs: "top_100_italia_2023_ncs.html",
+                nmod: "top_100_italia_2023_nmod.html",
+            }
+            // Aggiungere qui nuovi anni
+
+        };
+
+        function getYearFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('year') || '2025'; // Default al 2025
+        }
+
+        function updatePageForYear(year) {
+            const config = yearsConfig[year];
+            if (!config) return;
+            
+            document.getElementById('link-ncs').href = config.ncs;
+            document.getElementById('link-nmod').href = config.nmod;
+            
+            document.getElementById('desc-ncs').textContent = 
+                `Ordina i mapper in base al numero di sessioni di modifica (changeset) effettuate nel ${year}`;
+            document.getElementById('desc-nmod').textContent = 
+                `Ordina i mapper in base al numero totale di oggetti OSM modificati nel ${year}`;
+            
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                if (btn.dataset.year === year) {
+                    btn.style.backgroundColor = '#3498db';
+                    btn.style.color = 'white';
+                } else {
+                    btn.style.backgroundColor = '#f8f9fa';
+                    btn.style.color = '#333';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYear = getYearFromURL();
+            updatePageForYear(currentYear);
+            
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const year = this.dataset.year;
+                    const url = new URL(window.location);
+                    url.searchParams.set('year', year);
+                    window.history.pushState({}, '', url);
+                    updatePageForYear(year);
+                });
+            });
+        });
+
+        window.addEventListener('popstate', function() {
+            const year = getYearFromURL();
+            updatePageForYear(year);
+        });
+    </script>
+</body>
 </html>
