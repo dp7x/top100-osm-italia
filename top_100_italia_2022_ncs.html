@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 100 Mapper OSM ITALIA</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 20px; 
+            background: #f5f7fa;
+            color: #333;
+        }
+        .container { 
+            max-width: 95%; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 25px;
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+        .period-info {
+            background: #e8f4fc;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        #searchBox {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        #searchBox:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            border-right: 1px solid #2980b9;
+        }
+        th:hover { background: #2980b9; }
+        th:last-child { border-right: none; }
+        th.sort-asc::after { content: " ↑"; font-weight: bold; }
+        th.sort-desc::after { content: " ↓"; font-weight: bold; }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover { background: #f8f9fa; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        tr:nth-child(even):hover { background: #f1f1f1; }
+        .number { text-align: right; font-family: 'Courier New', monospace; }
+        .username { font-weight: 500; color: #2c3e50; }
+        .username a { color: #2c3e50; text-decoration: none; }
+        .username a:hover { color: #3498db; text-decoration: underline; }
+        .stats-bar {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4fc;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .stat-item { 
+            margin: 5px 15px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .stat-label { font-weight: 600; color: #2c3e50; }
+        .stat-value { font-weight: 700; color: #e74c3c; font-size: 1.1em; }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #666;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .top-link {
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .top-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: #f0f8ff;
+            transition: all 0.3s;
+            border: 1px solid #e1f0fa;
+        }
+        .top-link a:hover {
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+        }       
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            th, td { padding: 10px 5px; font-size: 0.9em; }
+            .stats-bar { flex-direction: column; }
+            .stat-item { margin: 5px 0; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-map-marked-alt"></i> Top 100 Mapper OSM ITALIA</h1>
+        <div class="subtitle">
+            Classifica per numero di changeset | Generato il 18/01/2026 alle 17:36 | 
+            <i class="fas fa-users"></i> 100 utenti | 
+            <i class="fas fa-database"></i> 11.304.860 oggetti totali
+        </div>
+        
+        <div class="top-link">
+            <a href="top_100_italia_2022_nmod.html">
+                <i class="fas fa-sort-amount-down"></i> Vai alla classifica per numero oggetti modificati
+            </a> 
+            <a href="index.html">
+                <i class="fas fa-home"></i> Torna all'indice
+            </a>			
+        </div>	        
+        
+        <div class="period-info"><i class="fas fa-calendar-alt"></i> Periodo analizzato: <strong>2022 – 2022</strong></div>
+        
+        <input type="text" id="searchBox" placeholder="Cerca utente o filtra dati...">
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-cubes"></i> Oggetti totali</div>
+                <div class="stat-value">11.304.860</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-chart-bar"></i> Media oggetti/CS</div>
+                <div class="stat-value">45,2</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-building"></i> Buildings totali</div>
+                <div class="stat-value">521.956</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-road"></i> Highways totali</div>
+                <div class="stat-value">903.972</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-border-all"></i> Landuses totali</div>
+                <div class="stat-value">132.366</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-faucet"></i> Amenities totali</div>
+                <div class="stat-value">117.413</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-water"></i> Waterways totali</div>
+                <div class="stat-value">38.616</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label"><i class="fas fa-leaf"></i> Naturals totali</div>
+                <div class="stat-value">296.936</div>
+            </div>
+        </div>
+        
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th data-sort="rank">#</th>
+                    <th data-sort="user">Utente <i class="fas fa-user"></i></th>
+                    <th data-sort="changesets" class="number">
+                        <span class="tooltip">Changeset
+                            <span class="tooltiptext">Sessioni di modifica uniche nel periodo</span>
+                        </span> <i class="fas fa-edit"></i>
+                    </th>
+                    <th data-sort="total_objects" class="number">
+                        <span class="tooltip">Oggetti
+                            <span class="tooltiptext">Oggetti OSM totali modificati</span>
+                        </span> <i class="fas fa-cube"></i>
+                    </th>
+                    <th data-sort="avg_objects_per_cs" class="number">
+                        <span class="tooltip">Oggetti/CS
+                            <span class="tooltiptext">Media oggetti per changeset</span>
+                        </span> <i class="fas fa-chart-bar"></i>
+                    </th>
+                    <th data-sort="buildings" class="number">
+                        <span class="tooltip">Buildings
+                            <span class="tooltiptext">Edifici creati/modificati</span>
+                        </span> <i class="fas fa-building"></i>
+                    </th>
+                    <th data-sort="highways" class="number">
+                        <span class="tooltip">Highways
+                            <span class="tooltiptext">Strade create/modificate</span>
+                        </span> <i class="fas fa-road"></i>
+                    </th>
+                    <th data-sort="landuse" class="number">
+                        <span class="tooltip">Landuses
+                            <span class="tooltiptext">Aree con uso del suolo (residenziale, industriale, agricolo...)</span>
+                        </span> <i class="fas fa-border-all"></i>
+                    </th>
+                    <th data-sort="amenities" class="number">
+                        <span class="tooltip">Amenities
+                            <span class="tooltiptext">POI (negozi, ristoranti, servizi...)</span>
+                        </span> <i class="fas fa-faucet"></i>
+                    </th>
+                    <th data-sort="waterways" class="number">
+                        <span class="tooltip">Waterways
+                            <span class="tooltiptext">Corsi d'acqua (fiumi, torrenti, canali...)</span>
+                        </span> <i class="fas fa-water"></i>
+                    </th>
+                    <th data-sort="naturals" class="number">
+                        <span class="tooltip">Naturals
+                            <span class="tooltiptext">Elementi naturali</span>
+                        </span> <i class="fas fa-leaf"></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="number">1</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Flight777" target="_blank">Flight777 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">36.390</td>
+                    <td class="number">62.144</td>
+                    <td class="number">1,7</td>
+                    <td class="number">6.202</td>
+                    <td class="number">28.246</td>
+                    <td class="number">3.562</td>
+                    <td class="number">2.687</td>
+                    <td class="number">91</td>
+                    <td class="number">559</td>
+                </tr>
+                <tr>
+                    <td class="number">2</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Đuro Jiří" target="_blank">Đuro Jiří <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">18.940</td>
+                    <td class="number">241.275</td>
+                    <td class="number">12,7</td>
+                    <td class="number">17.738</td>
+                    <td class="number">99.168</td>
+                    <td class="number">714</td>
+                    <td class="number">24.172</td>
+                    <td class="number">75</td>
+                    <td class="number">3.726</td>
+                </tr>
+                <tr>
+                    <td class="number">3</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/SekeRob" target="_blank">SekeRob <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">11.361</td>
+                    <td class="number">2.335.706</td>
+                    <td class="number">205,6</td>
+                    <td class="number">16.682</td>
+                    <td class="number">32.347</td>
+                    <td class="number">58.914</td>
+                    <td class="number">3.872</td>
+                    <td class="number">1.942</td>
+                    <td class="number">189.709</td>
+                </tr>
+                <tr>
+                    <td class="number">4</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/kmpoppe (@ Mapillary Update)" target="_blank">kmpoppe (@ Mapillary Update) <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">8.119</td>
+                    <td class="number">9.175</td>
+                    <td class="number">1,1</td>
+                    <td class="number">241</td>
+                    <td class="number">6.079</td>
+                    <td class="number">15</td>
+                    <td class="number">631</td>
+                    <td class="number">14</td>
+                    <td class="number">90</td>
+                </tr>
+                <tr>
+                    <td class="number">5</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Balaabirami" target="_blank">Balaabirami <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">6.154</td>
+                    <td class="number">175.862</td>
+                    <td class="number">28,6</td>
+                    <td class="number">16</td>
+                    <td class="number">53.599</td>
+                    <td class="number">44</td>
+                    <td class="number">13</td>
+                    <td class="number">7</td>
+                    <td class="number">87</td>
+                </tr>
+                <tr>
+                    <td class="number">6</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/ross-map" target="_blank">ross-map <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">5.235</td>
+                    <td class="number">867.633</td>
+                    <td class="number">165,7</td>
+                    <td class="number">115.011</td>
+                    <td class="number">39.071</td>
+                    <td class="number">1.958</td>
+                    <td class="number">3.587</td>
+                    <td class="number">156</td>
+                    <td class="number">451</td>
+                </tr>
+                <tr>
+                    <td class="number">7</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/PasqualeD" target="_blank">PasqualeD <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">4.578</td>
+                    <td class="number">29.867</td>
+                    <td class="number">6,5</td>
+                    <td class="number">1.376</td>
+                    <td class="number">1.980</td>
+                    <td class="number">103</td>
+                    <td class="number">1.472</td>
+                    <td class="number">2</td>
+                    <td class="number">2.339</td>
+                </tr>
+                <tr>
+                    <td class="number">8</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/demon_box" target="_blank">demon_box <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">4.555</td>
+                    <td class="number">120.072</td>
+                    <td class="number">26,4</td>
+                    <td class="number">4.519</td>
+                    <td class="number">11.352</td>
+                    <td class="number">1.416</td>
+                    <td class="number">1.377</td>
+                    <td class="number">960</td>
+                    <td class="number">13.879</td>
+                </tr>
+                <tr>
+                    <td class="number">9</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Andrea Del Sarto" target="_blank">Andrea Del Sarto <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">4.130</td>
+                    <td class="number">48.515</td>
+                    <td class="number">11,7</td>
+                    <td class="number">216</td>
+                    <td class="number">10.402</td>
+                    <td class="number">80</td>
+                    <td class="number">108</td>
+                    <td class="number">51</td>
+                    <td class="number">66</td>
+                </tr>
+                <tr>
+                    <td class="number">10</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Giovanni Forgione" target="_blank">Giovanni Forgione <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.939</td>
+                    <td class="number">454.160</td>
+                    <td class="number">115,3</td>
+                    <td class="number">4.506</td>
+                    <td class="number">11.662</td>
+                    <td class="number">14.939</td>
+                    <td class="number">669</td>
+                    <td class="number">6.761</td>
+                    <td class="number">15.285</td>
+                </tr>
+                <tr>
+                    <td class="number">11</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/FinixFighter" target="_blank">FinixFighter <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.893</td>
+                    <td class="number">36.965</td>
+                    <td class="number">9,5</td>
+                    <td class="number">4.811</td>
+                    <td class="number">2.906</td>
+                    <td class="number">153</td>
+                    <td class="number">692</td>
+                    <td class="number">3</td>
+                    <td class="number">146</td>
+                </tr>
+                <tr>
+                    <td class="number">12</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Valerio_Bozzolan" target="_blank">Valerio_Bozzolan <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.797</td>
+                    <td class="number">18.952</td>
+                    <td class="number">5,0</td>
+                    <td class="number">1.361</td>
+                    <td class="number">10.080</td>
+                    <td class="number">36</td>
+                    <td class="number">1.508</td>
+                    <td class="number">1</td>
+                    <td class="number">143</td>
+                </tr>
+                <tr>
+                    <td class="number">13</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/aa30mom" target="_blank">aa30mom <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.680</td>
+                    <td class="number">54.850</td>
+                    <td class="number">14,9</td>
+                    <td class="number">5.789</td>
+                    <td class="number">3.678</td>
+                    <td class="number">191</td>
+                    <td class="number">1.647</td>
+                    <td class="number">48</td>
+                    <td class="number">17</td>
+                </tr>
+                <tr>
+                    <td class="number">14</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/gurciln" target="_blank">gurciln <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.592</td>
+                    <td class="number">552.734</td>
+                    <td class="number">153,9</td>
+                    <td class="number">7.857</td>
+                    <td class="number">7.578</td>
+                    <td class="number">6.562</td>
+                    <td class="number">950</td>
+                    <td class="number">1.396</td>
+                    <td class="number">13.694</td>
+                </tr>
+                <tr>
+                    <td class="number">15</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/ivanbranco" target="_blank">ivanbranco <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.434</td>
+                    <td class="number">91.760</td>
+                    <td class="number">26,7</td>
+                    <td class="number">4.319</td>
+                    <td class="number">16.830</td>
+                    <td class="number">3.795</td>
+                    <td class="number">6.187</td>
+                    <td class="number">1.308</td>
+                    <td class="number">1.279</td>
+                </tr>
+                <tr>
+                    <td class="number">16</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Aiman" target="_blank">Aiman <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.422</td>
+                    <td class="number">53.359</td>
+                    <td class="number">15,6</td>
+                    <td class="number">3.788</td>
+                    <td class="number">9.909</td>
+                    <td class="number">517</td>
+                    <td class="number">1.928</td>
+                    <td class="number">103</td>
+                    <td class="number">640</td>
+                </tr>
+                <tr>
+                    <td class="number">17</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/gscholz" target="_blank">gscholz <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">3.083</td>
+                    <td class="number">14.907</td>
+                    <td class="number">4,8</td>
+                    <td class="number">157</td>
+                    <td class="number">4.122</td>
+                    <td class="number">163</td>
+                    <td class="number">57</td>
+                    <td class="number">21</td>
+                    <td class="number">51</td>
+                </tr>
+                <tr>
+                    <td class="number">18</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/CCCGGG" target="_blank">CCCGGG <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.870</td>
+                    <td class="number">162.284</td>
+                    <td class="number">56,5</td>
+                    <td class="number">4.643</td>
+                    <td class="number">9.359</td>
+                    <td class="number">9.095</td>
+                    <td class="number">3.121</td>
+                    <td class="number">179</td>
+                    <td class="number">5.283</td>
+                </tr>
+                <tr>
+                    <td class="number">19</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Mannivu" target="_blank">Mannivu <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.795</td>
+                    <td class="number">25.651</td>
+                    <td class="number">9,2</td>
+                    <td class="number">1.061</td>
+                    <td class="number">4.856</td>
+                    <td class="number">684</td>
+                    <td class="number">1.278</td>
+                    <td class="number">325</td>
+                    <td class="number">159</td>
+                </tr>
+                <tr>
+                    <td class="number">20</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/domikdomik" target="_blank">domikdomik <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.724</td>
+                    <td class="number">148.983</td>
+                    <td class="number">54,7</td>
+                    <td class="number">14.874</td>
+                    <td class="number">2.538</td>
+                    <td class="number">1.748</td>
+                    <td class="number">318</td>
+                    <td class="number">340</td>
+                    <td class="number">584</td>
+                </tr>
+                <tr>
+                    <td class="number">21</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Martj9" target="_blank">Martj9 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.667</td>
+                    <td class="number">132.400</td>
+                    <td class="number">49,6</td>
+                    <td class="number">1.960</td>
+                    <td class="number">17.980</td>
+                    <td class="number">1.724</td>
+                    <td class="number">917</td>
+                    <td class="number">367</td>
+                    <td class="number">3.068</td>
+                </tr>
+                <tr>
+                    <td class="number">22</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/paulbrunner" target="_blank">paulbrunner <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.651</td>
+                    <td class="number">97.036</td>
+                    <td class="number">36,6</td>
+                    <td class="number">8.736</td>
+                    <td class="number">2.896</td>
+                    <td class="number">228</td>
+                    <td class="number">352</td>
+                    <td class="number">7</td>
+                    <td class="number">183</td>
+                </tr>
+                <tr>
+                    <td class="number">23</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Gior7" target="_blank">Gior7 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.612</td>
+                    <td class="number">136.491</td>
+                    <td class="number">52,3</td>
+                    <td class="number">699</td>
+                    <td class="number">9.232</td>
+                    <td class="number">790</td>
+                    <td class="number">323</td>
+                    <td class="number">206</td>
+                    <td class="number">448</td>
+                </tr>
+                <tr>
+                    <td class="number">24</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Dom61" target="_blank">Dom61 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.545</td>
+                    <td class="number">78.846</td>
+                    <td class="number">31,0</td>
+                    <td class="number">2.549</td>
+                    <td class="number">6.061</td>
+                    <td class="number">377</td>
+                    <td class="number">947</td>
+                    <td class="number">30</td>
+                    <td class="number">43</td>
+                </tr>
+                <tr>
+                    <td class="number">25</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/mircozorzo" target="_blank">mircozorzo <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.430</td>
+                    <td class="number">47.014</td>
+                    <td class="number">19,3</td>
+                    <td class="number">98</td>
+                    <td class="number">27.767</td>
+                    <td class="number">95</td>
+                    <td class="number">1.144</td>
+                    <td class="number">21</td>
+                    <td class="number">27</td>
+                </tr>
+                <tr>
+                    <td class="number">26</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Fabiano Peddis" target="_blank">Fabiano Peddis <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.264</td>
+                    <td class="number">140.903</td>
+                    <td class="number">62,2</td>
+                    <td class="number">4.641</td>
+                    <td class="number">11.475</td>
+                    <td class="number">389</td>
+                    <td class="number">554</td>
+                    <td class="number">54</td>
+                    <td class="number">20</td>
+                </tr>
+                <tr>
+                    <td class="number">27</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Cascafico" target="_blank">Cascafico <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.196</td>
+                    <td class="number">151.758</td>
+                    <td class="number">69,1</td>
+                    <td class="number">14.901</td>
+                    <td class="number">4.287</td>
+                    <td class="number">1.046</td>
+                    <td class="number">1.261</td>
+                    <td class="number">91</td>
+                    <td class="number">531</td>
+                </tr>
+                <tr>
+                    <td class="number">28</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/totera" target="_blank">totera <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.187</td>
+                    <td class="number">13.777</td>
+                    <td class="number">6,3</td>
+                    <td class="number">1.287</td>
+                    <td class="number">6.214</td>
+                    <td class="number">61</td>
+                    <td class="number">1.205</td>
+                    <td class="number">13</td>
+                    <td class="number">37</td>
+                </tr>
+                <tr>
+                    <td class="number">29</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/EdoBoo" target="_blank">EdoBoo <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.184</td>
+                    <td class="number">54.511</td>
+                    <td class="number">25,0</td>
+                    <td class="number">3.780</td>
+                    <td class="number">9.418</td>
+                    <td class="number">612</td>
+                    <td class="number">1.497</td>
+                    <td class="number">108</td>
+                    <td class="number">490</td>
+                </tr>
+                <tr>
+                    <td class="number">30</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/aldoct" target="_blank">aldoct <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.130</td>
+                    <td class="number">210.105</td>
+                    <td class="number">98,6</td>
+                    <td class="number">1.939</td>
+                    <td class="number">15.903</td>
+                    <td class="number">402</td>
+                    <td class="number">361</td>
+                    <td class="number">3.079</td>
+                    <td class="number">1.196</td>
+                </tr>
+                <tr>
+                    <td class="number">31</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/alessandrocarmeli" target="_blank">alessandrocarmeli <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.079</td>
+                    <td class="number">62.265</td>
+                    <td class="number">29,9</td>
+                    <td class="number">323</td>
+                    <td class="number">16.366</td>
+                    <td class="number">975</td>
+                    <td class="number">588</td>
+                    <td class="number">53</td>
+                    <td class="number">579</td>
+                </tr>
+                <tr>
+                    <td class="number">32</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/dvdzero" target="_blank">dvdzero <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">2.016</td>
+                    <td class="number">16.189</td>
+                    <td class="number">8,0</td>
+                    <td class="number">1.420</td>
+                    <td class="number">5.251</td>
+                    <td class="number">240</td>
+                    <td class="number">472</td>
+                    <td class="number">8</td>
+                    <td class="number">55</td>
+                </tr>
+                <tr>
+                    <td class="number">33</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/MarcoR" target="_blank">MarcoR <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.902</td>
+                    <td class="number">140.463</td>
+                    <td class="number">73,9</td>
+                    <td class="number">11.684</td>
+                    <td class="number">8.037</td>
+                    <td class="number">353</td>
+                    <td class="number">2.554</td>
+                    <td class="number">89</td>
+                    <td class="number">950</td>
+                </tr>
+                <tr>
+                    <td class="number">34</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Francoerbi41" target="_blank">Francoerbi41 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.888</td>
+                    <td class="number">166.043</td>
+                    <td class="number">87,9</td>
+                    <td class="number">21.019</td>
+                    <td class="number">7.461</td>
+                    <td class="number">388</td>
+                    <td class="number">2.533</td>
+                    <td class="number">680</td>
+                    <td class="number">94</td>
+                </tr>
+                <tr>
+                    <td class="number">35</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/user_10901495" target="_blank">user_10901495 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.846</td>
+                    <td class="number">163.706</td>
+                    <td class="number">88,7</td>
+                    <td class="number">7.082</td>
+                    <td class="number">26.943</td>
+                    <td class="number">1.797</td>
+                    <td class="number">5.708</td>
+                    <td class="number">775</td>
+                    <td class="number">3.376</td>
+                </tr>
+                <tr>
+                    <td class="number">36</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Andrea Carulli" target="_blank">Andrea Carulli <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.804</td>
+                    <td class="number">12.129</td>
+                    <td class="number">6,7</td>
+                    <td class="number">671</td>
+                    <td class="number">5.646</td>
+                    <td class="number">65</td>
+                    <td class="number">809</td>
+                    <td class="number">0</td>
+                    <td class="number">63</td>
+                </tr>
+                <tr>
+                    <td class="number">37</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Martin Larcher" target="_blank">Martin Larcher <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.747</td>
+                    <td class="number">23.004</td>
+                    <td class="number">13,2</td>
+                    <td class="number">4.429</td>
+                    <td class="number">3.730</td>
+                    <td class="number">17</td>
+                    <td class="number">370</td>
+                    <td class="number">6</td>
+                    <td class="number">35</td>
+                </tr>
+                <tr>
+                    <td class="number">38</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Dino Michelini" target="_blank">Dino Michelini <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.677</td>
+                    <td class="number">252.134</td>
+                    <td class="number">150,3</td>
+                    <td class="number">6.403</td>
+                    <td class="number">11.708</td>
+                    <td class="number">2.197</td>
+                    <td class="number">393</td>
+                    <td class="number">6.604</td>
+                    <td class="number">2.331</td>
+                </tr>
+                <tr>
+                    <td class="number">39</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/dieterdreist-CAI" target="_blank">dieterdreist-CAI <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.676</td>
+                    <td class="number">144.648</td>
+                    <td class="number">86,3</td>
+                    <td class="number">57</td>
+                    <td class="number">12.228</td>
+                    <td class="number">270</td>
+                    <td class="number">97</td>
+                    <td class="number">204</td>
+                    <td class="number">126</td>
+                </tr>
+                <tr>
+                    <td class="number">40</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/micheleOSM3" target="_blank">micheleOSM3 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.617</td>
+                    <td class="number">27.481</td>
+                    <td class="number">17,0</td>
+                    <td class="number">4</td>
+                    <td class="number">2.586</td>
+                    <td class="number">9</td>
+                    <td class="number">6</td>
+                    <td class="number">18</td>
+                    <td class="number">24</td>
+                </tr>
+                <tr>
+                    <td class="number">41</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/CarloPro" target="_blank">CarloPro <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.601</td>
+                    <td class="number">4.519</td>
+                    <td class="number">2,8</td>
+                    <td class="number">5</td>
+                    <td class="number">508</td>
+                    <td class="number">4</td>
+                    <td class="number">9</td>
+                    <td class="number">0</td>
+                    <td class="number">16</td>
+                </tr>
+                <tr>
+                    <td class="number">42</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Yiyi (itwikipedia)" target="_blank">Yiyi (itwikipedia) <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.574</td>
+                    <td class="number">27.026</td>
+                    <td class="number">17,2</td>
+                    <td class="number">835</td>
+                    <td class="number">15.936</td>
+                    <td class="number">122</td>
+                    <td class="number">744</td>
+                    <td class="number">0</td>
+                    <td class="number">104</td>
+                </tr>
+                <tr>
+                    <td class="number">43</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Pucciotrex30" target="_blank">Pucciotrex30 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.545</td>
+                    <td class="number">39.702</td>
+                    <td class="number">25,7</td>
+                    <td class="number">102</td>
+                    <td class="number">4.713</td>
+                    <td class="number">86</td>
+                    <td class="number">122</td>
+                    <td class="number">84</td>
+                    <td class="number">422</td>
+                </tr>
+                <tr>
+                    <td class="number">44</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/maupao70" target="_blank">maupao70 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.525</td>
+                    <td class="number">4.929</td>
+                    <td class="number">3,2</td>
+                    <td class="number">397</td>
+                    <td class="number">2.803</td>
+                    <td class="number">8</td>
+                    <td class="number">386</td>
+                    <td class="number">0</td>
+                    <td class="number">14</td>
+                </tr>
+                <tr>
+                    <td class="number">45</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/achim becker" target="_blank">achim becker <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.517</td>
+                    <td class="number">211.515</td>
+                    <td class="number">139,4</td>
+                    <td class="number">34</td>
+                    <td class="number">721</td>
+                    <td class="number">1.047</td>
+                    <td class="number">19</td>
+                    <td class="number">365</td>
+                    <td class="number">8.746</td>
+                </tr>
+                <tr>
+                    <td class="number">46</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/francians" target="_blank">francians <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.516</td>
+                    <td class="number">6.846</td>
+                    <td class="number">4,5</td>
+                    <td class="number">1.382</td>
+                    <td class="number">542</td>
+                    <td class="number">51</td>
+                    <td class="number">1.423</td>
+                    <td class="number">17</td>
+                    <td class="number">14</td>
+                </tr>
+                <tr>
+                    <td class="number">47</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/canfe" target="_blank">canfe <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.499</td>
+                    <td class="number">103.796</td>
+                    <td class="number">69,2</td>
+                    <td class="number">4.232</td>
+                    <td class="number">3.869</td>
+                    <td class="number">853</td>
+                    <td class="number">834</td>
+                    <td class="number">544</td>
+                    <td class="number">267</td>
+                </tr>
+                <tr>
+                    <td class="number">48</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/damianeue" target="_blank">damianeue <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.476</td>
+                    <td class="number">40.714</td>
+                    <td class="number">27,6</td>
+                    <td class="number">905</td>
+                    <td class="number">7.850</td>
+                    <td class="number">70</td>
+                    <td class="number">400</td>
+                    <td class="number">28</td>
+                    <td class="number">101</td>
+                </tr>
+                <tr>
+                    <td class="number">49</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/toponomastica_comune_arenzano" target="_blank">toponomastica_comune_arenzano <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.473</td>
+                    <td class="number">314.466</td>
+                    <td class="number">213,5</td>
+                    <td class="number">24.336</td>
+                    <td class="number">9.589</td>
+                    <td class="number">2.055</td>
+                    <td class="number">1.099</td>
+                    <td class="number">1.763</td>
+                    <td class="number">626</td>
+                </tr>
+                <tr>
+                    <td class="number">50</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/StpnGeorg" target="_blank">StpnGeorg <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.454</td>
+                    <td class="number">45.316</td>
+                    <td class="number">31,2</td>
+                    <td class="number">5.802</td>
+                    <td class="number">2.601</td>
+                    <td class="number">14</td>
+                    <td class="number">38</td>
+                    <td class="number">0</td>
+                    <td class="number">52</td>
+                </tr>
+                <tr>
+                    <td class="number">51</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Marcello Rolli" target="_blank">Marcello Rolli <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.373</td>
+                    <td class="number">5.799</td>
+                    <td class="number">4,2</td>
+                    <td class="number">223</td>
+                    <td class="number">2.370</td>
+                    <td class="number">5</td>
+                    <td class="number">35</td>
+                    <td class="number">10</td>
+                    <td class="number">80</td>
+                </tr>
+                <tr>
+                    <td class="number">52</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Andrea Musuruane" target="_blank">Andrea Musuruane <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.370</td>
+                    <td class="number">46.919</td>
+                    <td class="number">34,2</td>
+                    <td class="number">1.613</td>
+                    <td class="number">4.949</td>
+                    <td class="number">168</td>
+                    <td class="number">1.205</td>
+                    <td class="number">73</td>
+                    <td class="number">31</td>
+                </tr>
+                <tr>
+                    <td class="number">53</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/NicolaMW" target="_blank">NicolaMW <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.359</td>
+                    <td class="number">5.805</td>
+                    <td class="number">4,3</td>
+                    <td class="number">1.389</td>
+                    <td class="number">3.874</td>
+                    <td class="number">6</td>
+                    <td class="number">215</td>
+                    <td class="number">0</td>
+                    <td class="number">113</td>
+                </tr>
+                <tr>
+                    <td class="number">54</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/AndreaDFC" target="_blank">AndreaDFC <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.347</td>
+                    <td class="number">11.933</td>
+                    <td class="number">8,9</td>
+                    <td class="number">690</td>
+                    <td class="number">3.895</td>
+                    <td class="number">16</td>
+                    <td class="number">272</td>
+                    <td class="number">9</td>
+                    <td class="number">92</td>
+                </tr>
+                <tr>
+                    <td class="number">55</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/McCio" target="_blank">McCio <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.310</td>
+                    <td class="number">22.726</td>
+                    <td class="number">17,3</td>
+                    <td class="number">702</td>
+                    <td class="number">3.830</td>
+                    <td class="number">20</td>
+                    <td class="number">1.354</td>
+                    <td class="number">0</td>
+                    <td class="number">211</td>
+                </tr>
+                <tr>
+                    <td class="number">56</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/amadvance" target="_blank">amadvance <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.300</td>
+                    <td class="number">113.440</td>
+                    <td class="number">87,3</td>
+                    <td class="number">498</td>
+                    <td class="number">8.339</td>
+                    <td class="number">14</td>
+                    <td class="number">1.218</td>
+                    <td class="number">244</td>
+                    <td class="number">522</td>
+                </tr>
+                <tr>
+                    <td class="number">57</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/ernestoandolfi" target="_blank">ernestoandolfi <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.290</td>
+                    <td class="number">78.559</td>
+                    <td class="number">60,9</td>
+                    <td class="number">8.430</td>
+                    <td class="number">2.162</td>
+                    <td class="number">40</td>
+                    <td class="number">435</td>
+                    <td class="number">725</td>
+                    <td class="number">40</td>
+                </tr>
+                <tr>
+                    <td class="number">58</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/DnaX" target="_blank">DnaX <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.274</td>
+                    <td class="number">68.492</td>
+                    <td class="number">53,8</td>
+                    <td class="number">2.864</td>
+                    <td class="number">6.758</td>
+                    <td class="number">541</td>
+                    <td class="number">1.257</td>
+                    <td class="number">495</td>
+                    <td class="number">306</td>
+                </tr>
+                <tr>
+                    <td class="number">59</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/guidedocartis" target="_blank">guidedocartis <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.262</td>
+                    <td class="number">1.279</td>
+                    <td class="number">1,0</td>
+                    <td class="number">734</td>
+                    <td class="number">26</td>
+                    <td class="number">0</td>
+                    <td class="number">316</td>
+                    <td class="number">3</td>
+                    <td class="number">51</td>
+                </tr>
+                <tr>
+                    <td class="number">60</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/faustopachera" target="_blank">faustopachera <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.237</td>
+                    <td class="number">11.041</td>
+                    <td class="number">8,9</td>
+                    <td class="number">6.985</td>
+                    <td class="number">3.657</td>
+                    <td class="number">98</td>
+                    <td class="number">167</td>
+                    <td class="number">0</td>
+                    <td class="number">13</td>
+                </tr>
+                <tr>
+                    <td class="number">61</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/gabenarni" target="_blank">gabenarni <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.230</td>
+                    <td class="number">14.470</td>
+                    <td class="number">11,8</td>
+                    <td class="number">504</td>
+                    <td class="number">5.566</td>
+                    <td class="number">23</td>
+                    <td class="number">385</td>
+                    <td class="number">6</td>
+                    <td class="number">63</td>
+                </tr>
+                <tr>
+                    <td class="number">62</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/dp7" target="_blank">dp7 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.226</td>
+                    <td class="number">125.397</td>
+                    <td class="number">102,3</td>
+                    <td class="number">4.125</td>
+                    <td class="number">3.115</td>
+                    <td class="number">707</td>
+                    <td class="number">217</td>
+                    <td class="number">2.664</td>
+                    <td class="number">953</td>
+                </tr>
+                <tr>
+                    <td class="number">63</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Tri28" target="_blank">Tri28 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.224</td>
+                    <td class="number">23.777</td>
+                    <td class="number">19,4</td>
+                    <td class="number">1.679</td>
+                    <td class="number">2.935</td>
+                    <td class="number">146</td>
+                    <td class="number">887</td>
+                    <td class="number">2</td>
+                    <td class="number">15</td>
+                </tr>
+                <tr>
+                    <td class="number">64</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Susymala" target="_blank">Susymala <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.217</td>
+                    <td class="number">6.852</td>
+                    <td class="number">5,6</td>
+                    <td class="number">65</td>
+                    <td class="number">3.012</td>
+                    <td class="number">17</td>
+                    <td class="number">126</td>
+                    <td class="number">38</td>
+                    <td class="number">6</td>
+                </tr>
+                <tr>
+                    <td class="number">65</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/sorcrosc" target="_blank">sorcrosc <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.199</td>
+                    <td class="number">79.121</td>
+                    <td class="number">66,0</td>
+                    <td class="number">6.974</td>
+                    <td class="number">9.684</td>
+                    <td class="number">224</td>
+                    <td class="number">242</td>
+                    <td class="number">51</td>
+                    <td class="number">54</td>
+                </tr>
+                <tr>
+                    <td class="number">66</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/pippo6" target="_blank">pippo6 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.197</td>
+                    <td class="number">7.488</td>
+                    <td class="number">6,3</td>
+                    <td class="number">285</td>
+                    <td class="number">1.496</td>
+                    <td class="number">21</td>
+                    <td class="number">568</td>
+                    <td class="number">0</td>
+                    <td class="number">10</td>
+                </tr>
+                <tr>
+                    <td class="number">67</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/madbob" target="_blank">madbob <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.182</td>
+                    <td class="number">4.983</td>
+                    <td class="number">4,2</td>
+                    <td class="number">1.174</td>
+                    <td class="number">3.161</td>
+                    <td class="number">0</td>
+                    <td class="number">377</td>
+                    <td class="number">0</td>
+                    <td class="number">62</td>
+                </tr>
+                <tr>
+                    <td class="number">68</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Aluminum0173" target="_blank">Aluminum0173 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.178</td>
+                    <td class="number">12.554</td>
+                    <td class="number">10,7</td>
+                    <td class="number">469</td>
+                    <td class="number">3.347</td>
+                    <td class="number">26</td>
+                    <td class="number">834</td>
+                    <td class="number">12</td>
+                    <td class="number">8</td>
+                </tr>
+                <tr>
+                    <td class="number">69</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/f_gonella" target="_blank">f_gonella <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.177</td>
+                    <td class="number">116.822</td>
+                    <td class="number">99,3</td>
+                    <td class="number">279</td>
+                    <td class="number">29.930</td>
+                    <td class="number">597</td>
+                    <td class="number">346</td>
+                    <td class="number">505</td>
+                    <td class="number">284</td>
+                </tr>
+                <tr>
+                    <td class="number">70</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Acheloo" target="_blank">Acheloo <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.169</td>
+                    <td class="number">11.368</td>
+                    <td class="number">9,7</td>
+                    <td class="number">294</td>
+                    <td class="number">1.988</td>
+                    <td class="number">79</td>
+                    <td class="number">752</td>
+                    <td class="number">2</td>
+                    <td class="number">53</td>
+                </tr>
+                <tr>
+                    <td class="number">71</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/megaloman-it" target="_blank">megaloman-it <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.168</td>
+                    <td class="number">1.815</td>
+                    <td class="number">1,6</td>
+                    <td class="number">181</td>
+                    <td class="number">734</td>
+                    <td class="number">1</td>
+                    <td class="number">542</td>
+                    <td class="number">0</td>
+                    <td class="number">22</td>
+                </tr>
+                <tr>
+                    <td class="number">72</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Italian Technology" target="_blank">Italian Technology <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.162</td>
+                    <td class="number">39.380</td>
+                    <td class="number">33,9</td>
+                    <td class="number">989</td>
+                    <td class="number">8.052</td>
+                    <td class="number">416</td>
+                    <td class="number">1.278</td>
+                    <td class="number">84</td>
+                    <td class="number">97</td>
+                </tr>
+                <tr>
+                    <td class="number">73</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Map47" target="_blank">Map47 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.152</td>
+                    <td class="number">12.363</td>
+                    <td class="number">10,7</td>
+                    <td class="number">963</td>
+                    <td class="number">613</td>
+                    <td class="number">266</td>
+                    <td class="number">157</td>
+                    <td class="number">52</td>
+                    <td class="number">110</td>
+                </tr>
+                <tr>
+                    <td class="number">74</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Marcello Perathoner" target="_blank">Marcello Perathoner <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.145</td>
+                    <td class="number">89.647</td>
+                    <td class="number">78,3</td>
+                    <td class="number">596</td>
+                    <td class="number">9.242</td>
+                    <td class="number">409</td>
+                    <td class="number">1.491</td>
+                    <td class="number">246</td>
+                    <td class="number">639</td>
+                </tr>
+                <tr>
+                    <td class="number">75</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/dieterdreist" target="_blank">dieterdreist <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.105</td>
+                    <td class="number">60.262</td>
+                    <td class="number">54,5</td>
+                    <td class="number">2.189</td>
+                    <td class="number">3.552</td>
+                    <td class="number">1.581</td>
+                    <td class="number">674</td>
+                    <td class="number">68</td>
+                    <td class="number">198</td>
+                </tr>
+                <tr>
+                    <td class="number">76</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/kaitu" target="_blank">kaitu <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.104</td>
+                    <td class="number">86.327</td>
+                    <td class="number">78,2</td>
+                    <td class="number">8.264</td>
+                    <td class="number">3.194</td>
+                    <td class="number">84</td>
+                    <td class="number">687</td>
+                    <td class="number">251</td>
+                    <td class="number">154</td>
+                </tr>
+                <tr>
+                    <td class="number">77</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/GiuliaL" target="_blank">GiuliaL <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.102</td>
+                    <td class="number">6.595</td>
+                    <td class="number">6,0</td>
+                    <td class="number">504</td>
+                    <td class="number">2.208</td>
+                    <td class="number">9</td>
+                    <td class="number">172</td>
+                    <td class="number">6</td>
+                    <td class="number">26</td>
+                </tr>
+                <tr>
+                    <td class="number">78</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/hecktor" target="_blank">hecktor <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.099</td>
+                    <td class="number">377.746</td>
+                    <td class="number">343,7</td>
+                    <td class="number">45.666</td>
+                    <td class="number">2.910</td>
+                    <td class="number">336</td>
+                    <td class="number">214</td>
+                    <td class="number">104</td>
+                    <td class="number">181</td>
+                </tr>
+                <tr>
+                    <td class="number">79</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/cartop" target="_blank">cartop <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.088</td>
+                    <td class="number">21.824</td>
+                    <td class="number">20,1</td>
+                    <td class="number">75</td>
+                    <td class="number">2.181</td>
+                    <td class="number">283</td>
+                    <td class="number">416</td>
+                    <td class="number">20</td>
+                    <td class="number">470</td>
+                </tr>
+                <tr>
+                    <td class="number">80</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/HaPe-CZ" target="_blank">HaPe-CZ <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.084</td>
+                    <td class="number">55.383</td>
+                    <td class="number">51,1</td>
+                    <td class="number">901</td>
+                    <td class="number">1.567</td>
+                    <td class="number">284</td>
+                    <td class="number">50</td>
+                    <td class="number">100</td>
+                    <td class="number">107</td>
+                </tr>
+                <tr>
+                    <td class="number">81</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Jrachi" target="_blank">Jrachi <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.077</td>
+                    <td class="number">96.723</td>
+                    <td class="number">89,8</td>
+                    <td class="number">956</td>
+                    <td class="number">18.946</td>
+                    <td class="number">629</td>
+                    <td class="number">347</td>
+                    <td class="number">868</td>
+                    <td class="number">310</td>
+                </tr>
+                <tr>
+                    <td class="number">82</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/fayor" target="_blank">fayor <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.052</td>
+                    <td class="number">661.575</td>
+                    <td class="number">628,9</td>
+                    <td class="number">44.111</td>
+                    <td class="number">32.607</td>
+                    <td class="number">2.343</td>
+                    <td class="number">9.241</td>
+                    <td class="number">420</td>
+                    <td class="number">3.152</td>
+                </tr>
+                <tr>
+                    <td class="number">83</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Fiero Brigante" target="_blank">Fiero Brigante <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.046</td>
+                    <td class="number">15.010</td>
+                    <td class="number">14,3</td>
+                    <td class="number">206</td>
+                    <td class="number">1.534</td>
+                    <td class="number">67</td>
+                    <td class="number">103</td>
+                    <td class="number">16</td>
+                    <td class="number">67</td>
+                </tr>
+                <tr>
+                    <td class="number">84</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Ysogo" target="_blank">Ysogo <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.042</td>
+                    <td class="number">11.227</td>
+                    <td class="number">10,8</td>
+                    <td class="number">698</td>
+                    <td class="number">5.578</td>
+                    <td class="number">18</td>
+                    <td class="number">955</td>
+                    <td class="number">24</td>
+                    <td class="number">54</td>
+                </tr>
+                <tr>
+                    <td class="number">85</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Sergio P" target="_blank">Sergio P <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.040</td>
+                    <td class="number">4.319</td>
+                    <td class="number">4,2</td>
+                    <td class="number">2</td>
+                    <td class="number">691</td>
+                    <td class="number">7</td>
+                    <td class="number">2</td>
+                    <td class="number">3</td>
+                    <td class="number">0</td>
+                </tr>
+                <tr>
+                    <td class="number">86</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/gabriele_sani" target="_blank">gabriele_sani <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.021</td>
+                    <td class="number">24.318</td>
+                    <td class="number">23,8</td>
+                    <td class="number">512</td>
+                    <td class="number">5.190</td>
+                    <td class="number">67</td>
+                    <td class="number">517</td>
+                    <td class="number">624</td>
+                    <td class="number">154</td>
+                </tr>
+                <tr>
+                    <td class="number">87</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/luschi" target="_blank">luschi <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.014</td>
+                    <td class="number">15.908</td>
+                    <td class="number">15,7</td>
+                    <td class="number">951</td>
+                    <td class="number">2.774</td>
+                    <td class="number">84</td>
+                    <td class="number">802</td>
+                    <td class="number">84</td>
+                    <td class="number">29</td>
+                </tr>
+                <tr>
+                    <td class="number">88</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/IlBano" target="_blank">IlBano <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.012</td>
+                    <td class="number">38.788</td>
+                    <td class="number">38,3</td>
+                    <td class="number">2.773</td>
+                    <td class="number">4.349</td>
+                    <td class="number">61</td>
+                    <td class="number">108</td>
+                    <td class="number">182</td>
+                    <td class="number">22</td>
+                </tr>
+                <tr>
+                    <td class="number">89</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Bruno3589" target="_blank">Bruno3589 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.007</td>
+                    <td class="number">29.825</td>
+                    <td class="number">29,6</td>
+                    <td class="number">2.034</td>
+                    <td class="number">4.386</td>
+                    <td class="number">194</td>
+                    <td class="number">414</td>
+                    <td class="number">74</td>
+                    <td class="number">60</td>
+                </tr>
+                <tr>
+                    <td class="number">90</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Gorka115" target="_blank">Gorka115 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">1.001</td>
+                    <td class="number">19.624</td>
+                    <td class="number">19,6</td>
+                    <td class="number">380</td>
+                    <td class="number">18.115</td>
+                    <td class="number">23</td>
+                    <td class="number">455</td>
+                    <td class="number">1</td>
+                    <td class="number">96</td>
+                </tr>
+                <tr>
+                    <td class="number">91</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/rugamarcus" target="_blank">rugamarcus <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">989</td>
+                    <td class="number">201.439</td>
+                    <td class="number">203,7</td>
+                    <td class="number">17.474</td>
+                    <td class="number">12.793</td>
+                    <td class="number">495</td>
+                    <td class="number">1.910</td>
+                    <td class="number">82</td>
+                    <td class="number">8.155</td>
+                </tr>
+                <tr>
+                    <td class="number">92</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/arcanma" target="_blank">arcanma <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">976</td>
+                    <td class="number">103.416</td>
+                    <td class="number">106,0</td>
+                    <td class="number">605</td>
+                    <td class="number">5.755</td>
+                    <td class="number">255</td>
+                    <td class="number">164</td>
+                    <td class="number">373</td>
+                    <td class="number">119</td>
+                </tr>
+                <tr>
+                    <td class="number">93</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/ElDavo" target="_blank">ElDavo <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">970</td>
+                    <td class="number">7.477</td>
+                    <td class="number">7,7</td>
+                    <td class="number">348</td>
+                    <td class="number">3.563</td>
+                    <td class="number">6</td>
+                    <td class="number">132</td>
+                    <td class="number">7</td>
+                    <td class="number">216</td>
+                </tr>
+                <tr>
+                    <td class="number">94</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/LucioGE" target="_blank">LucioGE <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">962</td>
+                    <td class="number">2.668</td>
+                    <td class="number">2,8</td>
+                    <td class="number">339</td>
+                    <td class="number">1.533</td>
+                    <td class="number">5</td>
+                    <td class="number">275</td>
+                    <td class="number">6</td>
+                    <td class="number">16</td>
+                </tr>
+                <tr>
+                    <td class="number">95</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/user_16544420" target="_blank">user_16544420 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">957</td>
+                    <td class="number">3.390</td>
+                    <td class="number">3,5</td>
+                    <td class="number">63</td>
+                    <td class="number">1.410</td>
+                    <td class="number">15</td>
+                    <td class="number">93</td>
+                    <td class="number">0</td>
+                    <td class="number">0</td>
+                </tr>
+                <tr>
+                    <td class="number">96</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/LuSirto" target="_blank">LuSirto <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">950</td>
+                    <td class="number">46.791</td>
+                    <td class="number">49,3</td>
+                    <td class="number">794</td>
+                    <td class="number">2.540</td>
+                    <td class="number">394</td>
+                    <td class="number">451</td>
+                    <td class="number">774</td>
+                    <td class="number">199</td>
+                </tr>
+                <tr>
+                    <td class="number">97</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/mau59" target="_blank">mau59 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">933</td>
+                    <td class="number">70.755</td>
+                    <td class="number">75,8</td>
+                    <td class="number">1.449</td>
+                    <td class="number">5.550</td>
+                    <td class="number">135</td>
+                    <td class="number">536</td>
+                    <td class="number">134</td>
+                    <td class="number">7.058</td>
+                </tr>
+                <tr>
+                    <td class="number">98</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/gmarzio" target="_blank">gmarzio <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">927</td>
+                    <td class="number">48.799</td>
+                    <td class="number">52,6</td>
+                    <td class="number">96</td>
+                    <td class="number">7.671</td>
+                    <td class="number">21</td>
+                    <td class="number">17</td>
+                    <td class="number">172</td>
+                    <td class="number">20</td>
+                </tr>
+                <tr>
+                    <td class="number">99</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/Günter-CW" target="_blank">Günter-CW <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">924</td>
+                    <td class="number">5.778</td>
+                    <td class="number">6,3</td>
+                    <td class="number">387</td>
+                    <td class="number">3.663</td>
+                    <td class="number">68</td>
+                    <td class="number">407</td>
+                    <td class="number">1</td>
+                    <td class="number">3</td>
+                </tr>
+                <tr>
+                    <td class="number">100</td>
+                    <td class="username"><a href="https://www.openstreetmap.org/user/M7746" target="_blank">M7746 <i class="fas fa-external-link-alt" style="font-size: 0.8em; color: #7f8c8d;"></i></a></td>
+                    <td class="number">910</td>
+                    <td class="number">2.277</td>
+                    <td class="number">2,5</td>
+                    <td class="number">595</td>
+                    <td class="number">894</td>
+                    <td class="number">28</td>
+                    <td class="number">156</td>
+                    <td class="number">4</td>
+                    <td class="number">10</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <footer>
+            <p>
+                <i class="fas fa-code"></i> Generato con PyOsmium | 
+                <i class="fas fa-download"></i> Dati completi: 
+                <a href="top_100_italia_2022_ncs.csv" style="color: #3498db; text-decoration: none;">
+                    <i class="fas fa-file-csv"></i> CSV
+                </a> | 
+                <a href="top_100_italia_2022_ncs.json" style="color: #3498db; text-decoration: none;">
+                    <i class="fas fa-file-code"></i> JSON
+                </a>
+            </p>
+            <p><i class="fas fa-mouse-pointer"></i> Clicca sulle intestazioni per ordinare | <i class="fas fa-search"></i> Usa la casella di ricerca per filtrare</p>
+            <p><i class="fas fa-external-link-alt"></i> Clicca sul nome utente per aprire il profilo OSM</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('dataTable');
+            const headers = table.querySelectorAll('th[data-sort]');
+            const searchBox = document.getElementById('searchBox');
+            let currentSort = { column: 'changesets', direction: 'desc' };
+            
+            function parseItalianNumber(str) {
+                // Fix: uso di \ per evitare warning (anche se in JS è corretto /\./)
+                let cleaned = str.replace(/\./g, '').replace(',', '.');
+                cleaned = cleaned.replace('%', '').trim();
+                return parseFloat(cleaned) || 0;
+            }
+            
+            function sortTable(column, direction) {
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                
+                rows.sort((a, b) => {
+                    let aVal = a.cells[headersArray.indexOf(column)].textContent;
+                    let bVal = b.cells[headersArray.indexOf(column)].textContent;
+                    
+                    const aNum = parseItalianNumber(aVal);
+                    const bNum = parseItalianNumber(bVal);
+                    
+                    if (direction === 'asc') {
+                        return aNum < bNum ? -1 : aNum > bNum ? 1 : 0;
+                    } else {
+                        return bNum < aNum ? -1 : bNum > aNum ? 1 : 0;
+                    }
+                });
+                
+                rows.forEach(row => tbody.appendChild(row));
+                
+                tbody.querySelectorAll('tr').forEach((row, index) => {
+                    row.cells[0].textContent = index + 1;
+                });
+                
+                headers.forEach(h => {
+                    h.classList.remove('sort-asc', 'sort-desc');
+                    if (h.getAttribute('data-sort') === column) {
+                        h.classList.add(`sort-${direction}`);
+                    }
+                });
+                
+                currentSort = { column, direction };
+            }
+            
+            const headersArray = Array.from(headers).map(h => h.getAttribute('data-sort'));
+            
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.getAttribute('data-sort');
+                    const direction = currentSort.column === column && currentSort.direction === 'desc' ? 'asc' : 'desc';
+                    sortTable(column, direction);
+                });
+            });
+            
+            searchBox.addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
+                const rows = table.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(filter) ? '' : 'none';
+                });
+            });
+            
+            sortTable('changesets', 'desc');
+        });
+    </script>
+</body>
+</html>
