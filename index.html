@@ -173,6 +173,14 @@
             color: #333;
             font-weight: bold;
             transition: all 0.3s ease;
+            flex: 1 0 calc(20% - 8px);
+            max-width: calc(20% - 8px);
+            box-sizing: border-box;
+            text-align: center;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .year-btn:hover {
@@ -187,6 +195,220 @@
             color: white;
             border-color: #3498db;
         }
+        
+        /* Stili per la ricerca integrata */
+        .year-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        /* Stili per la ricerca */
+        .year-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: #f8f9fa !important;
+            border-color: #dee2e6 !important;
+            color: #6c757d !important;
+        }
+
+        .year-btn.filtered-match {
+            background: #d1ecf1 !important;
+            border-color: #17a2b8 !important;
+            color: #0c5460 !important;
+            box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+            animation: highlight-pulse 2s ease-in-out;
+        }
+
+        @keyframes highlight-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(23, 162, 184, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(23, 162, 184, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(23, 162, 184, 0); }
+        }
+
+        .year-btn.searching {
+            position: relative;
+            color: transparent !important;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .year-btn.searching::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .clear-btn {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+        
+        .stats-container {
+            background: #e8f4fc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+            text-align: left;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stats-header {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stats-content {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        
+        .stats-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #3498db;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        /* Per schermi più piccoli, riduci a 3 bottoni per riga */
+        @media (max-width: 768px) {
+            .year-btn {
+                flex: 1 0 calc(33.333% - 8px);
+                max-width: calc(33.333% - 8px);
+            }
+            
+            .year-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                width: 100%;
+            }
+            
+            .search-input {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .year-btn {
+                flex: 1 0 calc(50% - 8px);
+                max-width: calc(50% - 8px);
+            }
+        }
+		.year-btn.active {
+			background: #3498db !important;
+			color: white !important;
+			border-color: #3498db !important;
+			box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+		}
+
+		/* Sovrascrivi lo stile del filtro match quando è anche attivo */
+		.year-btn.active.filtered-match {
+			background: #3498db !important; /* Blu più forte per l'anno selezionato */
+			border-color: #2980b9 !important;
+			color: white !important;
+			box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+		}
+
+		/* Mantieni lo stile filtered-match quando NON è attivo */
+		.year-btn.filtered-match:not(.active) {
+			background: #d1ecf1 !important;
+			border-color: #17a2b8 !important;
+			color: #0c5460 !important;
+		}		
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -200,10 +422,36 @@
         </div>
         
         <div class="year-selector">
-            <h3 style="color: #2c3e50; margin-bottom: 15px;">
-                <i class="fas fa-calendar-alt"></i> Seleziona l'anno:
-            </h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+            <div class="year-filter">
+                <h3 style="color: #2c3e50; margin: 0;">
+                    <i class="fas fa-calendar-alt"></i> Seleziona l'anno:
+                </h3>
+                
+                <div class="filter-controls">
+                    <input type="text" id="mapper-search" 
+                           class="search-input"
+                           placeholder="Filtra per mappatore" 
+                           autocomplete="off">
+                    <button id="clear-filter" class="clear-btn">
+                        <i class="fas fa-times"></i> Cancella
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Feedback della ricerca -->
+            <div id="filter-feedback" style="margin: 10px 0; font-size: 0.9em; color: #666; min-height: 20px;"></div>
+            
+            <!-- Barra di progresso -->
+            <div class="progress-container" id="progress-container" style="display: none;">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <!-- Bottoni degli anni -->
+            <div class="buttons-container">
+		<a href="?year=2011" class="year-btn" data-year="2011">2011</a>			
+		<a href="?year=2012" class="year-btn" data-year="2012">2012</a>			
+                <a href="?year=2013" class="year-btn" data-year="2013">2013</a>			
+		<a href="?year=2014" class="year-btn" data-year="2014">2014</a>
                 <a href="?year=2015" class="year-btn" data-year="2015">2015</a>
                 <a href="?year=2016" class="year-btn" data-year="2016">2016</a>
                 <a href="?year=2017" class="year-btn" data-year="2017">2017</a>
@@ -217,6 +465,9 @@
                 <a href="?year=2025" class="year-btn" data-year="2025">2025</a>
                 <!-- aggiungere qui altri anni/link -->
             </div>
+            
+            <!-- Statistiche mappatore  -->
+            <div id="mapper-stats-container"></div>
         </div>
         
         <div class="links-container">
@@ -253,118 +504,751 @@
     </div>
 
     <script>
-        // Configurazione dei link-anni
+        // Configurazione dei link-anni + JSON per parsing mappatori
         const yearsConfig = {
             "2025": {
                 ncs: "top_100_italia_2025_ncs.html",
-                nmod: "top_100_italia_2025_nmod.html"
+                nmod: "top_100_italia_2025_nmod.html",
+                ncs_json: "top_100_italia_2025_ncs.json",
+                nmod_json: "top_100_italia_2025_nmod.json"
             },
             "2024": {
                 ncs: "top_100_italia_2024_ncs.html",
-                nmod: "top_100_italia_2024_nmod.html"
+                nmod: "top_100_italia_2024_nmod.html",
+                ncs_json: "top_100_italia_2024_ncs.json",
+                nmod_json: "top_100_italia_2024_nmod.json"
             },
             "2023": {
                 ncs: "top_100_italia_2023_ncs.html",
-                nmod: "top_100_italia_2023_nmod.html"
+                nmod: "top_100_italia_2023_nmod.html",
+                ncs_json: "top_100_italia_2023_ncs.json",
+                nmod_json: "top_100_italia_2023_nmod.json"
             },
             "2022": {
                 ncs: "top_100_italia_2022_ncs.html",
-                nmod: "top_100_italia_2022_nmod.html"
+                nmod: "top_100_italia_2022_nmod.html",
+                ncs_json: "top_100_italia_2022_ncs.json",
+                nmod_json: "top_100_italia_2022_nmod.json"
             },
             "2021": {
                 ncs: "top_100_italia_2021_ncs.html",
-                nmod: "top_100_italia_2021_nmod.html"
+                nmod: "top_100_italia_2021_nmod.html",
+                ncs_json: "top_100_italia_2021_ncs.json",
+                nmod_json: "top_100_italia_2021_nmod.json"
             },
             "2020": {
                 ncs: "top_100_italia_2020_ncs.html",
-                nmod: "top_100_italia_2020_nmod.html"
+                nmod: "top_100_italia_2020_nmod.html",
+                ncs_json: "top_100_italia_2020_ncs.json",
+                nmod_json: "top_100_italia_2020_nmod.json"
             },
             "2019": {
                 ncs: "top_100_italia_2019_ncs.html",
-                nmod: "top_100_italia_2019_nmod.html"
+                nmod: "top_100_italia_2019_nmod.html",
+                ncs_json: "top_100_italia_2019_ncs.json",
+                nmod_json: "top_100_italia_2019_nmod.json"
             },
             "2018": {
                 ncs: "top_100_italia_2018_ncs.html",
-                nmod: "top_100_italia_2018_nmod.html"
+                nmod: "top_100_italia_2018_nmod.html",
+                ncs_json: "top_100_italia_2018_ncs.json",
+                nmod_json: "top_100_italia_2018_nmod.json"
             },
             "2017": {
                 ncs: "top_100_italia_2017_ncs.html",
-                nmod: "top_100_italia_2017_nmod.html"
+                nmod: "top_100_italia_2017_nmod.html",
+                ncs_json: "top_100_italia_2017_ncs.json",
+                nmod_json: "top_100_italia_2017_nmod.json"
             },
             "2016": {
                 ncs: "top_100_italia_2016_ncs.html",
-                nmod: "top_100_italia_2016_nmod.html"
+                nmod: "top_100_italia_2016_nmod.html",
+                ncs_json: "top_100_italia_2016_ncs.json",
+                nmod_json: "top_100_italia_2016_nmod.json"
             },
             "2015": {
                 ncs: "top_100_italia_2015_ncs.html",
-                nmod: "top_100_italia_2015_nmod.html"
+                nmod: "top_100_italia_2015_nmod.html",
+                ncs_json: "top_100_italia_2015_ncs.json",
+                nmod_json: "top_100_italia_2015_nmod.json"
+            },
+            "2014": {
+                ncs: "top_100_italia_2014_ncs.html",
+                nmod: "top_100_italia_2014_nmod.html",
+                ncs_json: "top_100_italia_2014_ncs.json",
+                nmod_json: "top_100_italia_2014_nmod.json"
+            },
+            "2013": {
+                ncs: "top_100_italia_2013_ncs.html",
+                nmod: "top_100_italia_2013_nmod.html",
+                ncs_json: "top_100_italia_2013_ncs.json",
+                nmod_json: "top_100_italia_2013_nmod.json"
+            },
+            "2012": {
+                ncs: "top_100_italia_2012_ncs.html",
+                nmod: "top_100_italia_2012_nmod.html",
+                ncs_json: "top_100_italia_2012_ncs.json",
+                nmod_json: "top_100_italia_2012_nmod.json"
+            },
+            "2011": {
+                ncs: "top_100_italia_2011_ncs.html",
+                nmod: "top_100_italia_2011_nmod.html",
+                ncs_json: "top_100_italia_2011_ncs.json",
+                nmod_json: "top_100_italia_2011_nmod.json"
             }
             // Aggiungere qui nuovi anni
         };
 
+        // Cache per risultati JSON
+        const jsonCache = {};
+
         // Funzione parametro year da URL
         function getYearFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('year') || '2025'; // Default al 2025
+            return urlParams.get('year') || '2025'; // Default 
         }
 
-        // Funzione aggiorna pagina x anno selezionato
-        function updatePageForYear(year) {
-            const config = yearsConfig[year];
-            if (!config) {
-                // fallback anno
-                const availableYears = Object.keys(yearsConfig);
-                year = availableYears[0] || '2025';
-                config = yearsConfig[year];
+		// Funzione aggiorna pagina x anno selezionato
+		function updatePageForYear(year) {
+			const config = yearsConfig[year];
+			if (!config) {
+				// fallback anno
+				const availableYears = Object.keys(yearsConfig);
+				year = availableYears[0] || '2025';
+				config = yearsConfig[year];
+			}
+			
+			document.getElementById('link-ncs').href = config.ncs;
+			document.getElementById('link-nmod').href = config.nmod;
+			
+			document.getElementById('desc-ncs').textContent = 
+				`Ordina i mapper in base al numero di sessioni di modifica (changeset) effettuate nel ${year}`;
+			document.getElementById('desc-nmod').textContent = 
+				`Ordina i mapper in base al numero totale di oggetti OSM modificati nel ${year}`;
+			
+			document.querySelectorAll('.year-btn').forEach(btn => {
+				btn.classList.remove('active');
+				if (btn.dataset.year === year) {
+					btn.classList.add('active');
+				}
+			});
+			
+			// Focus sul bottone selezionato
+			const selectedBtn = document.querySelector(`.year-btn[data-year="${year}"]`);
+			if (selectedBtn) {
+				setTimeout(() => {
+					selectedBtn.scrollIntoView({ 
+						behavior: 'smooth', 
+						block: 'nearest',
+						inline: 'center' 
+					});
+				}, 100);
+			}
+		}
+
+        // Carica il file JSON per anno
+        async function loadYearJSON(year, type = 'ncs') {
+            const cacheKey = `${year}_${type}`;
+            
+            if (jsonCache[cacheKey]) {
+                return jsonCache[cacheKey];
             }
             
-            // Aggiorna link classifiche
-            document.getElementById('link-ncs').href = config.ncs;
-            document.getElementById('link-nmod').href = config.nmod;
+            const config = yearsConfig[year];
+            if (!config || !config[`${type}_json`]) {
+                console.warn(`Configurazione JSON non trovata per ${year}_${type}`);
+                return null;
+            }
             
-            // Aggiorna descrizioni
-            document.getElementById('desc-ncs').textContent = 
-                `Ordina i mapper in base al numero di sessioni di modifica (changeset) effettuate nel ${year}`;
-            document.getElementById('desc-nmod').textContent = 
-                `Ordina i mapper in base al numero totale di oggetti OSM modificati nel ${year}`;
-            
-            // stile bottoni 
-            document.querySelectorAll('.year-btn').forEach(btn => {
-                if (btn.dataset.year === year) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
+            try {
+                const response = await fetch(config[`${type}_json`]);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
-            });
+                const data = await response.json();
+                
+                // Cache oggetto JSON
+                jsonCache[cacheKey] = data;
+                return data;
+            } catch (error) {
+                console.error(`Errore caricamento JSON per ${year}_${type}:`, error);
+                return null;
+            }
         }
 
-        // Inizializzazione DOM ready
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentYear = getYearFromURL();
-            updatePageForYear(currentYear);
-            
-            // gestione click bottoni 
-            document.querySelectorAll('.year-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const year = this.dataset.year;
-                    
-                    // Aggiorna URL senza ricaricare la pagina
-                    const url = new URL(window.location);
-                    url.searchParams.set('year', year);
-                    window.history.pushState({}, '', url);
-                    
-                    // Aggiorna contenuto pagina per anno
-                    updatePageForYear(year);
-                });
-            });
-        });
 
-        // Gestione pulsanti back/forward
-        window.addEventListener('popstate', function() {
-            const year = getYearFromURL();
-            updatePageForYear(year);
-        });
+
+
+		// funzione stats per nome esatto del mappatore
+		async function calculateMapperStats(exactMapperName) {
+			const searchTerm = exactMapperName.toLowerCase().trim();
+			console.log(`[STATS] Calcolo statistiche per: ${exactMapperName}`);
+			
+			const yearButtons = document.querySelectorAll('.year-btn');
+			const stats = {
+				mapperName: exactMapperName,
+				totalYears: 0,
+				// Aggiungi queste due nuove proprietà:
+				bestRankNCS: Infinity,
+				bestYearNCS: '',
+				bestRankNMOD: Infinity,
+				bestYearNMOD: '',
+				// Mantieni le esistenti:
+				totalChangesets: 0,
+				totalObjects: 0,
+				yearsPresent: [],
+				foundInNCS: 0,
+				foundInNMOD: 0
+			};
+			
+			const promises = [];
+			
+			for (const btn of yearButtons) {
+				const year = btn.dataset.year;
+				const promise = Promise.all([
+					loadYearJSON(year, 'ncs'),
+					loadYearJSON(year, 'nmod')
+				]).then(([dataNCS, dataNMOD]) => {
+					// Cerca nome ESATTO in NCS
+					if (dataNCS && dataNCS.top_100) {
+						const mapperNCS = dataNCS.top_100.find(item => 
+							item.user && item.user.toLowerCase() === searchTerm
+						);
+						
+						if (mapperNCS) {
+							stats.totalYears++;
+							stats.foundInNCS++;
+							stats.yearsPresent.push(year);
+							
+							const rank = dataNCS.top_100.indexOf(mapperNCS) + 1;
+							// MODIFICA QUI: traccia separatamente
+							if (rank < stats.bestRankNCS) {
+								stats.bestRankNCS = rank;
+								stats.bestYearNCS = year;
+							}
+							
+							stats.totalChangesets += mapperNCS.changesets || 0;
+							stats.totalObjects += mapperNCS.total_objects || 0;
+						}
+					}
+					
+					// Cerca nome ESATTO in NMOD
+					if (dataNMOD && dataNMOD.top_100) {
+						const mapperNMOD = dataNMOD.top_100.find(item => 
+							item.user && item.user.toLowerCase() === searchTerm
+						);
+						
+						if (mapperNMOD) {
+							// Se non già contato per NCS, incrementa totalYears
+							if (!stats.yearsPresent.includes(year)) {
+								stats.totalYears++;
+								stats.yearsPresent.push(year);
+							}
+							stats.foundInNMOD++;
+							
+							const rank = dataNMOD.top_100.indexOf(mapperNMOD) + 1;
+							// MODIFICA QUI: traccia separatamente
+							if (rank < stats.bestRankNMOD) {
+								stats.bestRankNMOD = rank;
+								stats.bestYearNMOD = year;
+							}
+							
+							// Aggiungi i dati solo se non già aggiunti da NCS
+							if (!stats.yearsPresent.includes(year) || 
+								(dataNCS && dataNCS.top_100 && !dataNCS.top_100.find(item => 
+									item.user && item.user.toLowerCase() === searchTerm))) {
+								stats.totalChangesets += mapperNMOD.changesets || 0;
+								stats.totalObjects += mapperNMOD.total_objects || 0;
+							}
+						}
+					}
+				});
+				promises.push(promise);
+			}
+			
+			await Promise.allSettled(promises);
+			
+			// Ricalcola bestRank e bestYear come la migliore tra le due
+			stats.bestRank = Math.min(stats.bestRankNCS, stats.bestRankNMOD);
+			stats.bestYear = stats.bestRank === stats.bestRankNCS ? 
+				stats.bestYearNCS : stats.bestYearNMOD;
+			
+			console.log(`[STATS] Risultato per ${exactMapperName}:`, {
+				totalYears: stats.totalYears,
+				bestRankNCS: stats.bestRankNCS,
+				bestYearNCS: stats.bestYearNCS,
+				bestRankNMOD: stats.bestRankNMOD,
+				bestYearNMOD: stats.bestYearNMOD,
+				bestRank: stats.bestRank,
+				bestYear: stats.bestYear,
+				years: stats.yearsPresent
+			});
+			
+			if (stats.totalYears === 0) {
+				return null;
+			}
+			
+			return stats;
+		}
+
+		// informazioni aggiuntive
+		function showMapperStats(mapperName, stats) {
+			const container = document.getElementById('mapper-stats-container');
+			
+			if (!stats) {
+				container.innerHTML = '';
+				return;
+			}
+			
+			const avgChangesets = Math.round(stats.totalChangesets / stats.totalYears);
+			const avgObjects = Math.round(stats.totalObjects / stats.totalYears);
+			const yearsList = stats.yearsPresent.sort((a, b) => b - a).join(', ');
+			
+			// Calcola in quante classifiche appare
+			const totalAppearances = stats.foundInNCS + stats.foundInNMOD;
+			const bothClassifications = Math.min(stats.foundInNCS, stats.foundInNMOD);
+			const onlyOneClassification = totalAppearances - (bothClassifications * 2);
+			
+			// Costruisci il testo per la miglior posizione
+			let bestRankText = '';
+			if (stats.bestRankNCS < Infinity && stats.bestRankNMOD < Infinity) {
+				// Presente in entrambe le classifiche
+				bestRankText = `#${stats.bestRankNCS} (CS ${stats.bestYearNCS}) | #${stats.bestRankNMOD} (MOD ${stats.bestYearNMOD})`;
+			} else if (stats.bestRankNCS < Infinity) {
+				// Solo in NCS
+				bestRankText = `#${stats.bestRankNCS} (${stats.bestYearNCS}, CS)`;
+			} else if (stats.bestRankNMOD < Infinity) {
+				// Solo in NMOD
+				bestRankText = `#${stats.bestRankNMOD} (${stats.bestYearNMOD}, MOD)`;
+			}
+			
+			container.innerHTML = `
+				<div class="stats-container">
+					<div class="stats-header">
+						<i class="fas fa-chart-bar"></i> Statistiche 
+						<a href="https://www.openstreetmap.org/user/${encodeURIComponent(mapperName)}" 
+						   target="_blank" 
+						   style="color: #3498db; text-decoration: none; font-weight: bold;"
+						   onmouseover="this.style.textDecoration='underline'" 
+						   onmouseout="this.style.textDecoration='none'">
+							${mapperName} <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i>
+						</a> 
+					</div>
+					<div class="stats-content">
+						<div class="stats-item">
+							<span>Presente in:</span>
+							<span class="stats-value">${stats.totalYears} ann${stats.totalYears === 1 ? 'o' : 'i'}</span>
+						</div>
+						${bestRankText ? `
+						<div class="stats-item">
+							<span>Miglior posizione:</span>
+							<span class="stats-value">${bestRankText}</span>
+						</div>
+						` : ''}
+						<div class="stats-item">
+							<span>Changesets totali:</span>
+							<span class="stats-value">${stats.totalChangesets.toLocaleString()}</span>
+						</div>
+						<div class="stats-item">
+							<span>Media changesets/anno:</span>
+							<span class="stats-value">${avgChangesets.toLocaleString()}</span>
+						</div>
+						<div class="stats-item">
+							<span>Oggetti modificati:</span>
+							<span class="stats-value">${stats.totalObjects.toLocaleString()}</span>
+						</div>
+						${stats.foundInNCS > 0 && stats.foundInNMOD > 0 ? `
+						<div style="margin-top: 8px; font-size: 0.85em; color: #7f8c8d;">
+							<i class="fas fa-info-circle"></i> 
+							${bothClassifications > 0 ? `Presente in entrambe le classifiche per ${bothClassifications} anni` : ''}
+							${bothClassifications > 0 && onlyOneClassification > 0 ? ` e ` : ''}
+							${onlyOneClassification > 0 ? `in una sola classifica per ${onlyOneClassification} anni` : ''}
+						</div>
+						` : ''}
+						<div style="margin-top: 8px; font-size: 0.85em; color: #7f8c8d;">
+							NB: dati riferiti alla sola presenza in classifica per gli anni selezionati: non vengono considerati i changeset degli anni in cui l'utente non rientra nella Top 100.
+						</div>						
+					</div>
+				</div>
+			`;
+		}
+
+		// Funzione principale di filtro con caricamento completo
+		async function filterYearsByMapperJSON(mapperName) {
+			const searchTerm = mapperName.trim();
+			const yearButtons = document.querySelectorAll('.year-btn');
+			const feedback = document.getElementById('filter-feedback');
+			const progressContainer = document.getElementById('progress-container');
+			const progressBar = document.getElementById('progress-bar');
+			
+			// Reset se campo vuoto
+			if (!searchTerm) {
+				yearButtons.forEach(btn => {
+					btn.classList.remove('disabled', 'filtered-match', 'searching');
+				});
+				feedback.innerHTML = '';
+				progressContainer.style.display = 'none';
+				document.getElementById('mapper-stats-container').innerHTML = '';
+				return;
+			}
+			
+			// Verifica lunghezza minima
+			if (searchTerm.length < 3) {
+				feedback.innerHTML = `<span style="color: #ffc107;">
+					<i class="fas fa-info-circle"></i> Inserire almeno 3 caratteri
+				</span>`;
+				progressContainer.style.display = 'none';
+				return;
+			}
+			
+			// Mostra stato di ricerca
+			let completed = 0;
+			const total = yearButtons.length;
+			
+			const updateProgress = () => {
+				const percent = Math.round((completed / total) * 100);
+				feedback.innerHTML = `<span style="color: #6c757d;">
+					<i class="fas fa-spinner fa-spin"></i> Caricamento dati... ${completed}/${total} anni (${percent}%)
+				</span>`;
+				progressBar.style.width = `${percent}%`;
+			};
+			
+			// Mostra barra di progresso
+			progressContainer.style.display = 'block';
+			progressBar.style.width = '0%';
+			feedback.innerHTML = `<span style="color: #6c757d;">
+				<i class="fas fa-spinner fa-spin"></i> Caricamento dati per "${searchTerm}"...
+			</span>`;
+			
+			// Imposta stato "in ricerca" per tutti i bottoni
+			yearButtons.forEach(btn => {
+				btn.classList.add('searching');
+			});
+			
+			// 1. CARICA TUTTI I DATI
+			const allData = {};
+			const loadPromises = [];
+			
+			for (const btn of yearButtons) {
+				const year = btn.dataset.year;
+				const promise = Promise.all([
+					loadYearJSON(year, 'ncs'),
+					loadYearJSON(year, 'nmod')
+				]).then(([ncsData, nmodData]) => {
+					allData[year] = { ncs: ncsData, nmod: nmodData };
+					completed++;
+					updateProgress();
+				}).catch(error => {
+					console.error(`Errore caricamento anno ${year}:`, error);
+					allData[year] = { ncs: null, nmod: null };
+					completed++;
+					updateProgress();
+				});
+				
+				loadPromises.push(promise);
+			}
+			
+			// Attendi che TUTTI i dati siano caricati
+			await Promise.allSettled(loadPromises);
+			
+			// 2. CERCA IN TUTTI I DATI
+			let matches = 0;
+			const foundMappers = new Set();
+			const yearResults = [];
+			
+			// Reset stato searching e applica filtro
+			yearButtons.forEach(btn => {
+				const year = btn.dataset.year;
+				const yearData = allData[year];
+				
+				let found = false;
+				const mappersInYear = new Set();
+				
+				// Cerca in NCS
+				if (yearData.ncs && yearData.ncs.top_100) {
+					const matchesNCS = yearData.ncs.top_100.filter(item => 
+						item.user && item.user.toLowerCase().includes(searchTerm.toLowerCase())
+					);
+					matchesNCS.forEach(match => {
+						foundMappers.add(match.user);
+						mappersInYear.add(match.user);
+					});
+					if (matchesNCS.length > 0) found = true;
+				}
+				
+				// Cerca in NMOD
+				if (yearData.nmod && yearData.nmod.top_100) {
+					const matchesNMOD = yearData.nmod.top_100.filter(item => 
+						item.user && item.user.toLowerCase().includes(searchTerm.toLowerCase())
+					);
+					matchesNMOD.forEach(match => {
+						foundMappers.add(match.user);
+						mappersInYear.add(match.user);
+					});
+					if (matchesNMOD.length > 0) found = true;
+				}
+				
+				// Aggiorna stato bottoni
+				if (found) {
+					btn.classList.remove('disabled');
+					btn.classList.add('filtered-match');
+					matches++;
+				} else {
+					btn.classList.add('disabled');
+					btn.classList.remove('filtered-match');
+				}
+				
+				btn.classList.remove('searching');
+				yearResults.push({ 
+					year, 
+					mappers: Array.from(mappersInYear),
+					found 
+				});
+			});
+			
+			// 3. DETERMINA SE MOSTRARE STATISTICHE
+			const mappersArray = Array.from(foundMappers);
+			let targetMapper = null;
+			let stats = null;
+			
+			// LOGICA CORRETTA:
+			if (mappersArray.length === 1) {
+				// Un solo mappatore trovato
+				targetMapper = mappersArray[0];
+			} else if (mappersArray.length > 1) {
+				// Più mappatori trovati, cerca match esatto
+				const exactMatch = mappersArray.find(name => 
+					name.toLowerCase() === searchTerm.toLowerCase()
+				);
+				
+				// Mostra statistiche SOLO se c'è match esatto
+				if (exactMatch) {
+					targetMapper = exactMatch;
+				}
+				// Altrimenti targetMapper rimane null → nessuna statistica
+			}
+			
+			// 4. CALCOLA STATISTICHE SE NECESSARIO
+			if (targetMapper) {
+				stats = await calculateMapperStatsFromData(targetMapper, allData);
+			}
+			
+			// 5. AGGIORNA FEEDBACK
+			if (matches > 0) {
+				const matchYears = yearResults
+					.filter(yr => yr.found)
+					.map(yr => yr.year)
+					.sort((a, b) => b - a);
+				
+				let feedbackMessage = `<span style="color: #28a745;">
+					<i class="fas fa-check-circle"></i> Filtro attivo per "${searchTerm}" (${matches} anni)
+				</span>`;
+				
+				if (targetMapper && stats) {
+					feedbackMessage += `<br><span style="font-size: 0.9em;">Statistiche per: <strong>${targetMapper}</strong></span>`;
+					showMapperStats(targetMapper, stats);
+				} else if (mappersArray.length > 1) {
+					feedbackMessage += `<br><span style="font-size: 0.9em; color: #666;">
+						Trovati ${mappersArray.length} mappatori: ${mappersArray.slice(0, 3).join(', ')}${mappersArray.length > 3 ? '...' : ''}
+					</span>`;
+					document.getElementById('mapper-stats-container').innerHTML = '';
+				}
+				
+				feedback.innerHTML = feedbackMessage;
+				
+				// Scroll al primo match
+				const firstMatch = document.querySelector('.year-btn.filtered-match:not(.disabled)');
+				if (firstMatch) {
+					setTimeout(() => {
+						firstMatch.scrollIntoView({ 
+							behavior: 'smooth', 
+							block: 'center'
+						});
+					}, 300);
+				}
+			} else {
+				feedback.innerHTML = `<span style="color: #dc3545;">
+					<i class="fas fa-exclamation-circle"></i> "${searchTerm}" non trovato in nessun anno
+				</span>`;
+				document.getElementById('mapper-stats-container').innerHTML = '';
+			}
+			
+			// Nascondi barra di progresso
+			setTimeout(() => {
+				progressContainer.style.display = 'none';
+			}, 1000);
+		}
+
+
+		// Calcola statistiche usando i dati già caricati
+		async function calculateMapperStatsFromData(mapperName, allData) {
+			const searchTerm = mapperName.toLowerCase().trim();
+			
+			const stats = {
+				mapperName: mapperName,
+				totalYears: 0,
+				bestRankNCS: Infinity,
+				bestYearNCS: '',
+				bestRankNMOD: Infinity,
+				bestYearNMOD: '',
+				totalChangesets: 0,
+				totalObjects: 0,
+				yearsPresent: [],
+				foundInNCS: 0,
+				foundInNMOD: 0
+			};
+			
+			// Analizza tutti i dati già caricati
+			for (const [year, yearData] of Object.entries(allData)) {
+				let foundInYear = false;
+				
+				// Cerca in NCS
+				if (yearData.ncs && yearData.ncs.top_100) {
+					const mapperNCS = yearData.ncs.top_100.find(item => 
+						item.user && item.user.toLowerCase() === searchTerm
+					);
+					
+					if (mapperNCS) {
+						foundInYear = true;
+						stats.foundInNCS++;
+						
+						const rank = yearData.ncs.top_100.indexOf(mapperNCS) + 1;
+						if (rank < stats.bestRankNCS) {
+							stats.bestRankNCS = rank;
+							stats.bestYearNCS = year;
+						}
+						
+						if (!stats.yearsPresent.includes(year)) {
+							stats.totalChangesets += mapperNCS.changesets || 0;
+							stats.totalObjects += mapperNCS.total_objects || 0;
+						}
+					}
+				}
+				
+				// Cerca in NMOD
+				if (yearData.nmod && yearData.nmod.top_100) {
+					const mapperNMOD = yearData.nmod.top_100.find(item => 
+						item.user && item.user.toLowerCase() === searchTerm
+					);
+					
+					if (mapperNMOD) {
+						foundInYear = true;
+						stats.foundInNMOD++;
+						
+						const rank = yearData.nmod.top_100.indexOf(mapperNMOD) + 1;
+						if (rank < stats.bestRankNMOD) {
+							stats.bestRankNMOD = rank;
+							stats.bestYearNMOD = year;
+						}
+						
+						if (!stats.yearsPresent.includes(year)) {
+							stats.totalChangesets += mapperNMOD.changesets || 0;
+							stats.totalObjects += mapperNMOD.total_objects || 0;
+						}
+					}
+				}
+				
+				if (foundInYear) {
+					stats.totalYears++;
+					stats.yearsPresent.push(year);
+				}
+			}
+			
+			if (stats.totalYears === 0) {
+				return null;
+			}
+			
+			return stats;
+		}
+
+
+
+				function createDebounce(func, wait) {
+					let timeout;
+					return function executedFunction(...args) {
+						const later = () => {
+							clearTimeout(timeout);
+							func(...args);
+						};
+						clearTimeout(timeout);
+						timeout = setTimeout(later, wait);
+					};
+				}
+
+
+				const debouncedFilter = createDebounce(filterYearsByMapperJSON, 400);
+
+				// Inizializzazione DOM ready
+				document.addEventListener('DOMContentLoaded', function() {
+					const currentYear = getYearFromURL();
+					updatePageForYear(currentYear);
+					
+				// gestione click bottoni 
+				document.querySelectorAll('.year-btn').forEach(btn => {
+					btn.addEventListener('click', function(e) {
+						e.preventDefault();
+						const year = this.dataset.year;
+						
+						// Se il bottone è disabilitato, non fare nulla
+						if (this.classList.contains('disabled')) {
+							return;
+						}
+						
+						// Aggiorna URL senza ricaricare la pagina
+						const url = new URL(window.location);
+						url.searchParams.set('year', year);
+						window.history.pushState({}, '', url);
+						
+						// Aggiorna contenuto pagina per anno
+						updatePageForYear(year);
+						
+						// Scroll per far vedere il cambio
+						this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+					});
+				});
+					
+					// Gestione filtro mappatore
+					const searchInput = document.getElementById('mapper-search');
+					const clearButton = document.getElementById('clear-filter');
+					
+					searchInput.addEventListener('input', function() {
+						const value = this.value.trim();
+						if (value.length >= 3) {
+							debouncedFilter(value);
+						} else if (value.length === 0) {
+							filterYearsByMapperJSON('');
+						}
+					});
+					
+					clearButton.addEventListener('click', function() {
+						searchInput.value = '';
+						filterYearsByMapperJSON('');
+						searchInput.focus();
+					});
+					
+					// Enter per cercare
+					searchInput.addEventListener('keyup', function(e) {
+						if (e.key === 'Enter' && this.value.trim().length >= 3) {
+							// Annulla il debounce e cerca immediatamente
+							filterYearsByMapperJSON(this.value.trim());
+						}
+					});
+					
+					// Focus sul campo di ricerca con Ctrl+F
+					document.addEventListener('keydown', function(e) {
+						if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+							e.preventDefault();
+							searchInput.focus();
+							searchInput.select();
+						}
+					});
+				});
+
+				// Gestione pulsanti back/forward
+				window.addEventListener('popstate', function() {
+					const year = getYearFromURL();
+					updatePageForYear(year);
+				});
     </script>
 </body>
 </html>
