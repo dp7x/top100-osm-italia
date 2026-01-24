@@ -14,7 +14,7 @@ Visita il sito: **[https://dp7x.github.io/top100-osm-italia/](https://dp7x.githu
    Ordina i mapper in base al numero totale di oggetti OSM modificati
 
 ## 📈 Dati
-- Periodo analizzato: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025
+- Periodo analizzato: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025
 - Mapper analizzati: 100
 - Fonte dati: `italy-internal.osh.pbf` aggiornato al 05/01/2026
 - Elaborazione: PyOsmium
